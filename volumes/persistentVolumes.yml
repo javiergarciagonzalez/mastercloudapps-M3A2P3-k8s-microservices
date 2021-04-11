@@ -1,0 +1,41 @@
+---
+kind: PersistentVolume
+apiVersion: v1
+metadata:
+  name: mysql-pv
+spec:
+  storageClassName: mysql-vol
+  accessModes:
+  - ReadWriteOnce
+  capacity:
+    storage: 2Gi
+  hostPath:
+    path: /db/mysql
+
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: rabbitmq-pv
+spec:
+  storageClassName: rabbitmq-vol
+  accessModes:
+    - ReadWriteOnce
+  capacity:
+    storage: 2Gi
+  hostPath:
+    path: /rabbitmq
+
+---
+kind: PersistentVolume
+apiVersion: v1
+metadata:
+  name: mongo-pv
+spec:
+  storageClassName: mongo-vol
+  accessModes:
+    - ReadWriteOnce
+  capacity:
+    storage: 2Gi
+  hostPath:
+    path: /db/mongo
