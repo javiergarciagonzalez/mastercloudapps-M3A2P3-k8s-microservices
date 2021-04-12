@@ -16,6 +16,8 @@ spec:
         app: weatherservice
     spec:
       restartPolicy: Always
+      securityContext:
+        runAsUser: 1000
       containers:
       - name: weatherservice
         image: oscarsotosanchez/weatherservice:v1.0

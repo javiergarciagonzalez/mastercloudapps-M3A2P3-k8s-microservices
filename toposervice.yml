@@ -16,6 +16,8 @@ spec:
         app: toposervice
     spec:
       restartPolicy: Always
+      securityContext:
+        runAsUser: 1000
       containers:
       - name: toposervice
         image: oscarsotosanchez/toposervice:v1.0
