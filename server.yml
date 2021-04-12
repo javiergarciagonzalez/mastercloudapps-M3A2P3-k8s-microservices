@@ -21,6 +21,8 @@ spec:
       containers:
       - name: server
         image: oscarsotosanchez/server:v1.0
+        securityContext:
+          allowPrivilegeEscalation: false
         command: ["bash"]
         args:
         - "-c"

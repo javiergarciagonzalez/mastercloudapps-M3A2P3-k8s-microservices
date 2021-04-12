@@ -21,6 +21,8 @@ spec:
       containers:
       - name: planner
         image: oscarsotosanchez/planner:v1.0
+        securityContext:
+          allowPrivilegeEscalation: false
         env:
         - name: TOPO_HOST
           value: toposervice-service
