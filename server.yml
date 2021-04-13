@@ -14,6 +14,7 @@ spec:
     metadata:
       labels:
         app: server
+        dns-policy: enabled
     spec:
       restartPolicy: Always
       securityContext:
@@ -40,6 +41,7 @@ spec:
           value: amqp://root:password@rabbitmq-service
         ports:
         - containerPort: 3000
+
 ---
 apiVersion: v1
 kind: Service
@@ -57,3 +59,59 @@ spec:
   selector:
     app: server
   type: NodePort
+
+# Network policies
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: np-server-to-mysql
+spec:
+  podSelector:
+    matchLabels:
+      app: server
+  egress:
+  - to:
+    - podSelector:
+        matchLabels:
+          app: mysql
+    ports:
+    - port: 3306
+      protocol: TCP
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: np-server-to-rabbitmq
+spec:
+  podSelector:
+    matchLabels:
+      app: server
+  egress:
+  - to:
+    - podSelector:
+        matchLabels:
+          app: rabbitmq
+    ports:
+    - port: 5672
+      protocol: TCP
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: np-server-from-ingress
+spec:
+  podSelector:
+    matchLabels:
+      app: server
+  ingress:
+  - from:
+    - namespaceSelector:
+        matchLabels:
+          kubernetes.io/metadata.name: kube-system
+      podSelector:
+        matchLabels:
+          app.kubernetes.io/name: ingress-nginx
+    ports:
+    - protocol: TCP
+      port: 3000
