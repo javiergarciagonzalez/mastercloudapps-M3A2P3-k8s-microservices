@@ -53,3 +53,24 @@ spec:
   selector:
     app: rabbitmq
   type: ClusterIP
+
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: rabbitmq-from-planner-server
+spec:
+  podSelector:
+    matchLabels:
+      app: rabbitmq
+  ingress:
+  - from:
+    - podSelector:
+        matchLabels:
+          app: planner
+    - podSelector:
+        matchLabels:
+          app: server
+    ports:
+    - port: 5672
+      protocol: TCP

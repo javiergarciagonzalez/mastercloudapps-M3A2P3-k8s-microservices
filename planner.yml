@@ -45,24 +45,6 @@ spec:
 apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
 metadata:
-  name: np-planner-to-toposervice
-spec:
-  podSelector:
-    matchLabels:
-      app: planner
-  egress:
-  - to:
-    - podSelector:
-        matchLabels:
-          app: toposervice
-    ports:
-    - port: 8080
-      protocol: TCP
-
----
-apiVersion: networking.k8s.io/v1
-kind: NetworkPolicy
-metadata:
   name: np-planner-to-weatherservice
 spec:
   podSelector:
@@ -76,21 +58,17 @@ spec:
     ports:
     - port: 9090
       protocol: TCP
-
----
-apiVersion: networking.k8s.io/v1
-kind: NetworkPolicy
-metadata:
-  name: np-planner-to-rabbitmq
-spec:
-  podSelector:
-    matchLabels:
-      app: planner
-  egress:
   - to:
     - podSelector:
         matchLabels:
           app: rabbitmq
     ports:
     - port: 5672
+      protocol: TCP
+  - to:
+    - podSelector:
+        matchLabels:
+          app: toposervice
+    ports:
+    - port: 8080
       protocol: TCP

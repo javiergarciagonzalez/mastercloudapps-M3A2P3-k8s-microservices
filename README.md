@@ -3,12 +3,10 @@ Module 3 - Subject #2 - Assignment 3.
 
 ## USAGE
 
-Exec this bash script by running:
-```bash
-sh ./run.sh
-```
+Follow the commands described in run.md
 
-Go to `http://cluster-ip` to run the Eoloplanner up
+Go to `http://cluster-ip` to run the Eoloplanner app
+Go to `http://cluster-ip/toposervice/api/topographicdetails/madrid` to make a call to Topographic service
 
 ## Troubleshooting
 

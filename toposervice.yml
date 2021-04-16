@@ -61,44 +61,39 @@ spec:
 apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
 metadata:
-  name: np-toposervice-to-mongo
+  name: topo-to-mongodb
 spec:
   podSelector:
     matchLabels:
-      app: mongodb-service
-  ingress:
-    - from:
-      - podSelector:
-          matchLabels:
-            app: toposervice-service
-      ports:
-      - port: 27017
-        protocol: TCP
-      - port: 27018
-        protocol: TCP
-      - port: 27019
-        protocol: TCP
-
+      app: toposervice
+  egress:
+  - to:
+    - podSelector:
+        matchLabels:
+          app: mongodb
+    ports:
+    - port: 27017
+      protocol: TCP
 ---
 apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
 metadata:
-  name: np-toposervice-from-ingress-and-planner
+  name: topo-from-planner-ingress
 spec:
   podSelector:
     matchLabels:
       app: toposervice
   ingress:
   - from:
+    - podSelector:
+        matchLabels:
+          app: planner
     - namespaceSelector:
         matchLabels:
           kubernetes.io/metadata.name: kube-system
       podSelector:
         matchLabels:
           app.kubernetes.io/name: ingress-nginx
-    - podSelector:
-        matchLabels:
-          app: planner
     ports:
     - protocol: TCP
       port: 8080

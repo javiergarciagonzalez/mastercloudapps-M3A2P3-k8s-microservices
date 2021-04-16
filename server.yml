@@ -65,7 +65,7 @@ spec:
 apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
 metadata:
-  name: np-server-to-mysql
+  name: np-server-to-mysql-rabbitmq
 spec:
   podSelector:
     matchLabels:
@@ -78,16 +78,6 @@ spec:
     ports:
     - port: 3306
       protocol: TCP
----
-apiVersion: networking.k8s.io/v1
-kind: NetworkPolicy
-metadata:
-  name: np-server-to-rabbitmq
-spec:
-  podSelector:
-    matchLabels:
-      app: server
-  egress:
   - to:
     - podSelector:
         matchLabels:
@@ -99,7 +89,7 @@ spec:
 apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
 metadata:
-  name: np-server-from-ingress
+  name: server-from-ingress
 spec:
   podSelector:
     matchLabels:
